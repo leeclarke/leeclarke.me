@@ -1,1 +1,26 @@
-empty file.
+body {
+  min-width:465px;
+  overflow-x:hidden;
+}
+
+.large-field {
+	width: 360px;
+}
+
+th {
+	font-weight: bold;
+	float:left;
+}
+
+.small-font {
+	font-size:small;
+}
+
+.xlarge-field {
+	width: 416px;
+}
+
+.midItem {
+	vertical-align:middle;
+line-height: 1.5em;
+}
