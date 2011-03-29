@@ -1,10 +1,20 @@
 body {
-  min-width:465px;
+  height    : 100%;
+  border    : none;
+  width:780px;
+  margin-left: auto ;
+  margin-right: auto ;
   overflow-x:hidden;
+  background:#FBF5D0;
+}
+
+textarea {
+    width: 460px;
+    height: 120px;
 }
 
 .large-field {
-	width: 360px;
+	width: 460px;
 }
 
 th {
@@ -17,10 +27,36 @@ th {
 }
 
 .xlarge-field {
-	width: 416px;
+	width: 460px;
+}
+
+.xlarge-field-inset {
+    width: 520px;
 }
 
 .midItem {
 	vertical-align:middle;
-line-height: 1.5em;
+    line-height: 1.5em;
+    height: 60px;
+    margin-top: 4px
+}
+
+.results-field {
+    width: 700px;
+    height: 70%;
+}
+
+.spacer {
+    width=780px;
+    height=1px;
+}
+
+.spacer-long {
+    width:780px;
+    height:1px;
+}
+
+.tab-content {
+    min-height: 650px;
+    height: auto;
 }

@@ -1,3 +1,5 @@
+//TODO: fix tab heights
+//TODO: add inline help bubbles to fields.
 //TODO: add copy paste button.
 //TODO: Add ability to toggle off the line breaks in results.
 //TODO: Add toggle to switch between pure hRecipe Spec and the Google version.
@@ -5,36 +7,16 @@
 //TODO: reverse parse to populate from current page/field for editing.
 //TODO: Add Options (Allow toggle of save previous data and when to discard. (no save, only if already generated hRecipe, only on clear button.))
 
-//DONE: consider making Instr fields a 2row textArea
-//DONE: BUG:  Nutritional items are being dropped if array > 1
-//DONE: Remove blank array items.
-//DONE: fix any methods currently manipulating instructions.
-//DONE: Add checks for any missing data on html gen.
-//DONE: fixed code gen when no picture and no nutritional info.
-//DONE: Release 1.0
-//DONE: move scripts to js file once done testing
-//DONE: Add parsing for tags
-//DONE: Fix clear fail for Ingredients
-//DONE: Refactor code in here its getting ugly.
-//DONE: Add About tab
-//DONE: Add clear button to reset form if data was left in local storage.
-//DONE: Add save data to localstorage in case of accidentally closing.
-//DONE: make Ingredients field long.
-//DONE: Add hRecipe format for nutrition types. Look into diff on value/type tags
-//DONE: test duration validation, it should NOT allow "40 min" as an entry.
-//DONE: get NutritionType data from form and putput in right format
-//DONE: fix addField so Select is in the nutrition specific function.
-//DONE: Add Nutrition type drop down to specify Calories, fat, Total Carbs, Dietary Fiber, protein, sodium, Cholesterol
-//DONE: Add proper value-title tags for the duration times so google will parse it. ex: <span class="value-title" title="PT1H30M"></span> (PT1H30M ? does the PT stand for Pacific time or something else?)
-//DONE: finish time formatter in background for duration types
-//DONE: Add validations (durations- require hh:mm format)
-//DONE: add duration types (preptime, cooktime, also compute total 'duration' )
-//DONE: Fix Author output
-//DONE: fix Duration Output.
+    var nutritionTypes = ["Calories", "Fat", "Total Carbs", "Dietary Fiber", "Protein", "Sodium", "Cholesterol"];
 
- 	var nutritionTypes = ["Calories", "Fat", "Total Carbs", "Dietary Fiber", "Protein", "Sodium", "Cholesterol"];
-	$(document).ready(initForm);
-
+    /**
+     * Retrieve form data from localStoreage and parse Json to FormData object. 
+     */
+	function loadForm() {
+		var formData = loadFormData();
+		setFormValues(formData);
+	}
+    
 	/**
 	 * Initializes the Form after load.
 	 */
@@ -48,14 +30,14 @@
 		$('#clear').button();
 		$('#copy').button();
 		$( "#tabs" ).tabs({
-	    	show: function(event, ui) { 		
-		 	}
+            show: function(event, ui) {
+        }
 		});
 		$( "#tabs" ).bind( "tabsshow", function(event, ui) {
 			if(ui.panel.id == "tabs-2") {
 				var formData = initData();
 				if($("#recipeForm").valid() && formData){
-					var output = chrome.extension.getBackgroundPage().processData(formData);
+					var output = processData(formData);
 					debug("output="+output);
 					$('#results').val(output);
 				} else {
@@ -65,23 +47,23 @@
 			}
 		});
 
-    	$("#recipeForm").validate({
+        $("#recipeForm").validate({
 			rules: {
 			 // simple rule, converted to {required:true}
 				recName: {
-				 	required: true,
-				 	minlength: 2
+                    required: true,
+                    minlength: 2
 				 },
 				ingredient0: {
 					required: true,
-				 	minlength: 2
+                    minlength: 2
 				},
 				cooktime: {
-				 	checkTime:true
-			 	},
-			 	preptime: {
+                    checkTime:true
+                },
+                preptime: {
 					checkTime:true
-			 	}
+			    }
 		   },
 		   messages: {
 			 recName: {
@@ -104,19 +86,11 @@
 		$.validator.addMethod('checkTime', function( value, element, params ) {
 			if(/^([0-9]?[0-9])$/.test(value))
 				return true; //if just 1-2 digits then its ok assuem mins.
-			return ((value.length >= 1 )? /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/.test(value):true)
+            return ((value.length >= 1 )? /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/.test(value):true);
 		}, "Times should be in the hh:mm format.");
 		
 		appendNutritionTypes("nutritionType");
 		loadForm();
-	}
-	
-	/**
-     * Retrieve form data from localStoreage and parse Json to FormData object. 
-     */
-	function loadForm() {
-		var formData = loadFormData();
-		setFormValues(formData);
 	}
 
 	/**
@@ -130,7 +104,7 @@
 	/**
      * Loads saved data into form fields.
      */
-	function setFormValues(formData) {
+    function setFormValues(formData) {
 		$('#recName').val(formData.$recName);			
 		for(i in formData.$ingredients) {
 			if(i==0) {
@@ -182,7 +156,7 @@
 	}	
 
 	/* Add listener to catch popup close event. */
-	var background = chrome.extension.getBackgroundPage();
+	//var background = chrome.extension.getBackgroundPage();
 	addEventListener("unload", function (event) {
 		initData();
 	}, true);
@@ -291,7 +265,7 @@
 		var newElmName = (fieldName + "Row"+rowCt);
 		var newHtml = "<li id='"+newElmName+"' >";
 		if(textarea) {
-			newHtml += "<textarea id=\""+fieldName+"\" name=\""+ fieldName+"\" rows=\"2\" cols=\"43\" class=\"midItem xlarge-field\">";
+			newHtml += "<textarea id=\""+fieldName+"\" name=\""+ fieldName+"\" rows=\"2\" cols=\"43\" class=\"midItem xlarge-field-inset\">";
 			if(value) {
 				newHtml += value;
 			}
@@ -304,7 +278,7 @@
 			if(addSelect) {
 				newHtml += "/> <select id=\""+fieldName+"Type\" class=\""+fieldName+"Type"+ rowCt + "\"></select>";
 			} else {
-				newHtml += " class=\"xlarge-field\"/>";
+				newHtml += " class=\"xlarge-field-inset\"/>";
 			}
 		}
 
@@ -323,3 +297,155 @@
 		$( "#tabs" ).tabs();
 	});	
 
+    var BLOGGER = "www.blogger.com";
+	var BLOGGER_POST = "/post-edit.g";
+	var BLOGGER_CREATE = "/post-create.g";
+
+	
+	/**
+	 * //Cant use Chrome with the Blogger api with out getting an ugly popup... so odd, come on google really?
+	 * Moving output to the popup to display for copy/paste
+	 */
+	function processData(data) {
+		var currentURL = "";
+		//debug		
+		var toString = "rec-name:"+ data.$recName + " ingrediants:"+ data.$ingredients + " yield:" + data.$yield;
+		debug("got data:  "+toString)
+
+		var hRecipeCode = convertTohRecipe(data);
+		debug("hrecipe=="+hRecipeCode);
+		
+		return hRecipeCode;
+		//chrome.tabs.executeScript(null, {code:"updateText('"+hRecipeCode+"')"})		
+		debug("done");
+	}
+
+	/* a few notes to be used for new features
+	chrome.tabs.getSelected(null, function(tab) {    
+	var url = tab.url;						
+	jQuery.url.setUrl(url)
+	debug("HOST="+jQuery.url.attr("host"));
+
+			//var currField == document.activeElement;
+			//chrome.tabs.executeScript(null, {code:"updateText('TESTER')"})
+			//chrome.tabs.executeScript(null, {code:"console.log('active=='+document.activeElement)"})
+	});   
+	*/
+	
+
+	/**
+	 * Converts data to the hRecipe format with default formatting tags.
+	 */
+	function convertTohRecipe(data) {
+		var microformat = "<div class=\"hrecipe\">\n";
+		if(data){
+			
+			microformat += ("<h1 class=\"fn\">" + data.$recName + "</h1>\n");
+			if(data.$summary) microformat += ("<p class=\"summary\">" + data.$summary + "</p>\n");
+			if(data.$author) microformat += ("<p class=\"author\">" + data.$author + "</p>\n");
+			if(data.$published) microformat += ("<p>Published <span class=\"published\">" + data.$published + "</span></p>\n");
+
+			if(data.$photos.length>0 && data.$photos[0].length > 0) {
+				microformat += ("<img src=\"" + data.$photos[0] + "\" class=\"photo\" style=\"height:140px;width:140px;border-width:0px;\" alt=\"" + data.$recName + "\">\n");
+			}
+			if(data.$summery) microformat += ("<p class=\"summery\">" + data.$summery + "</p>\n");
+			microformat +="<h2>Ingredients</h2>\n"
+			microformat +="<ul>\n"
+			for(i in data.$ingredients) {
+				if(data.$ingredients[i].length >0) {
+					microformat += ("<li class=\"ingredient\">" + data.$ingredients[i] + "</li>\n");
+				}
+			}
+			microformat +="</ul>\n"
+			
+			if(data.$instructions) {
+				microformat +="<h2>Instructions</h2>\n";
+				var listType = (data.$instructions.length==1)?"ul":"ol";
+				microformat +="<" + listType + ">\n";
+				for(i in data.$instructions) {
+					if(data.$instructions[i].length >0) {
+						microformat += ("<li class=\"ingredient\">" + data.$instructions[i] + "</li>\n");
+					}
+				}
+				microformat +="</" + listType + ">\n";
+				//microformat += ("<span class=\"instructions\">" + data.$instructions + "</span>\n");
+			}
+			
+			if(data.$yield) microformat += ("<p>Yield:<span class=\"yield\"> "+data.$yield+"</span></p>\n");
+			
+			if(data.$preptime || data.$cooktime) {
+				microformat += "<span class=\"duration\">\n";
+				var prep = "0M";
+				var cook = "0M";
+				
+				
+				if(data.$preptime) {
+					prep = parseTime(data.$preptime);
+					microformat += ("<p>Prep Time:<span class=\"preptime\"><span class=\"value-title\" title=\""+prep+"\"></span> "+data.$preptime+"</span></p>\n");
+					
+				}
+				if(data.$cooktime) {
+					cook = parseTime(data.$cooktime);
+					microformat += ("<p>Cook time:<span class=\"cooktime\"><span class=\"value-title\" title=\""+cook+"\"></span> "+data.$cooktime+"</span></p>\n");				
+				}
+				
+				microformat += "</span>\n";
+			}
+			
+			if(data.$nutritions.length>0 && data.$nutritions[0].length > 0) {
+				microformat +="<h2>Nutrition</h2>\n";
+				microformat +="<p>\n";
+				microformat +="<span class=\"nutrition\">"
+				for(n in data.$nutritions) {
+					if(data.$nutritionTypes[n].length >0) {
+					microformat += toProperCase(data.$nutritionTypes[n])+": <span class=\""+ (data.$nutritionTypes[n].replace(" ","")).toLowerCase() + "\">" +(data.$nutritions[n] + "</span>\n");
+					}
+				}
+				microformat +="</span>\n</p>\n";
+			}    
+			if(data.$tags && data.$tags.length >0 && data.$tags[0].length > 0) {
+				var tagCode = [];
+				microformat +="<span>Tags: ";
+				for(t in data.$tags) {
+					tagCode.push("<span class=\"tag\">"+data.$tags[t]+"</span>");
+				}	
+				microformat += tagCode.join(',');
+				microformat +="</span>";
+			}
+		}
+		
+		microformat += "</div>";
+		return microformat;
+	}
+
+	/**
+	 * Makes first letter of each word uppercase.
+	 */
+	function toProperCase(strIn) {
+		var results = []
+		if(strIn) {
+			var words = strIn.toLowerCase().split(" ");
+			for(w in words) {
+				var first = words[w].charAt(0).toUpperCase();
+				results.push(first + words[w].substr(1));
+			}
+		}
+		return results.join(" ");
+	}
+
+	/**
+	 * Parse method expects to recieve time formatted in the hh:mm format and simply yanks out the : and adds markers
+	 */
+	function parseTime(timeValue) {
+		var result = "PT";
+		var timeSplit = timeValue.split(":");
+		if(timeSplit.length == 2) {
+			result += (timeSplit[0]+"H"+timeSplit[1]+"M");
+		} else {
+			result += (timeValue+"M");
+		}		
+		
+		return result;
+	}
+
+$(document).ready(initForm);
