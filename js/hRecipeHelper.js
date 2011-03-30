@@ -417,13 +417,13 @@
 			if(data.$nutritions.length>0 && data.$nutritions[0].length > 0) {
 				microformat +="<h2>Nutrition</h2>\n";
 				microformat +="<p>\n";
-				microformat +="<span class=\"nutrition\">";
+				microformat +="<ul class=\"nutrition\">";
 				for(var n in data.$nutritions) {
 					if(data.$nutritionTypes[n].length >0) {
-					microformat += toProperCase(data.$nutritionTypes[n])+": <span class=\""+ (data.$nutritionTypes[n].replace(" ","")).toLowerCase() + "\">" +(data.$nutritions[n] + "</span>\n");
+					microformat += "<li>"+toProperCase(data.$nutritionTypes[n])+": <span class=\""+ (data.$nutritionTypes[n].replace(" ","")).toLowerCase() + "\">" +(data.$nutritions[n] + "</span></li>\n");
 					}
 				}
-				microformat +="</span>\n</p>\n";
+				microformat +="</ul>\n</p>\n";
 			}    
 			if(data.$tags && data.$tags.length >0 && data.$tags[0].length > 0) {
 				var tagCode = [];
