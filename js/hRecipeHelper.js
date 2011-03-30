@@ -1,4 +1,4 @@
-//TODO: fix tab heights
+//TODO: Add preview option
 //TODO: add inline help bubbles to fields.
 //TODO: add copy paste button.
 //TODO: Add ability to toggle off the line breaks in results.
@@ -17,6 +17,13 @@
 		setFormValues(formData);
 	}
     
+    
+/*    function saveFormData() {
+        var formData = initData();
+        saveFormData(formData);   
+        debug('Form data saved');
+    }*/
+    
 	/**
 	 * Initializes the Form after load.
 	 */
@@ -26,15 +33,22 @@
 		$('#published').datepicker();
 		$('#ok').button();
 		$('#done').button();
-		$('#close').button();
+		$('#previewBtn').button();
 		$('#clear').button();
 		$('#copy').button();
 		$( "#tabs" ).tabs({
             show: function(event, ui) {
         }
 		});
+        //Hide Preview button
+        $('#previewBtn').hide();
+        
 		$( "#tabs" ).bind( "tabsshow", function(event, ui) {
 			if(ui.panel.id == "tabs-2") {
+                $('#previewBtn').toggle();
+                $('#previewBtn').val('Preview');
+                $('#results').show();
+                $('#preview').hide();
 				var formData = initData();
 				if($("#recipeForm").valid() && formData){
 					var output = processData(formData);
@@ -44,7 +58,10 @@
 					//fails validation, switch back to input form
 					$( "#tabs" ).tabs('select',0);
 				}
+			} else {
+                $('#previewBtn').hide();   
 			}
+            
 		});
 
         $("#recipeForm").validate({
@@ -91,6 +108,14 @@
 		
 		appendNutritionTypes("nutritionType");
 		loadForm();
+        
+        //Set height to viewable minus the header.
+        var tabs = $(this).find(".tab-content");
+        var body = $(this).find("body");
+        tabs.height( (body.height() - tabs.position().top-30));      
+        
+        //bind blur to save data
+        $('body').bind('focusout', saveFormData);
 	}
 
 	/**
@@ -106,9 +131,9 @@
      */
     function setFormValues(formData) {
 		$('#recName').val(formData.$recName);			
-		for(i in formData.$ingredients) {
+		for(var i in formData.$ingredients) {
 			if(i==0) {
-				$('#ingredient0').val(formData.$ingredients[i])
+				$('#ingredient0').val(formData.$ingredients[i]);
 			} else {
 				addFormField('ingredient', false, formData.$ingredients[i]);				
 			}
@@ -129,7 +154,7 @@
 		$('#instruction0').val(formData.$instructions[0]);
 		for(i in formData.$instructions) {
 			if(i==0) {
-				$('#instruction0').val(formData.$instructions[i])
+				$('#instruction0').val(formData.$instructions[i]);
 			} else {
 				if(formData.$instructions[i].length > 0)
 					addFormField('instruction', false, formData.$instructions[i], true);				
@@ -235,7 +260,7 @@
      */
 	function appendNutrition(value,selectedType) {
 		var elmtNumber = addFormField('nutrition', true, value);		
-		var selectName = 'nutritionType'+elmtNumber
+		var selectName = 'nutritionType'+elmtNumber;
 		appendNutritionTypes(selectName);
 		if(selectedType) {
 			$('.'+selectName).val(selectedType);
@@ -243,12 +268,12 @@
 	}
 
 	/**
- 	 * Adds the array of Types to the new select
+     * Adds the array of Types to the new select
 	 */
 	function appendNutritionTypes(nutritionTypeFieldName) {
 		var output = [];
-		$.each(nutritionTypes, function(key, value) 	{
-		  	output.push('<option value="'+ (value.replace(" ","")).toLowerCase() +'">'+ value +'</option>');
+		$.each(nutritionTypes, function(key, value) {
+            output.push('<option value="'+ (value.replace(" ","")).toLowerCase() +'">'+ value +'</option>');
 		});
 		$("."+nutritionTypeFieldName).html(output.join(''));
 		debug("##updated select name==" +"."+nutritionTypeFieldName);
@@ -310,14 +335,12 @@
 		var currentURL = "";
 		//debug		
 		var toString = "rec-name:"+ data.$recName + " ingrediants:"+ data.$ingredients + " yield:" + data.$yield;
-		debug("got data:  "+toString)
+		debug("got data:  "+toString);
 
 		var hRecipeCode = convertTohRecipe(data);
 		debug("hrecipe=="+hRecipeCode);
 		
 		return hRecipeCode;
-		//chrome.tabs.executeScript(null, {code:"updateText('"+hRecipeCode+"')"})		
-		debug("done");
 	}
 
 	/* a few notes to be used for new features
@@ -341,22 +364,22 @@
 		if(data){
 			
 			microformat += ("<h1 class=\"fn\">" + data.$recName + "</h1>\n");
-			if(data.$summary) microformat += ("<p class=\"summary\">" + data.$summary + "</p>\n");
-			if(data.$author) microformat += ("<p class=\"author\">" + data.$author + "</p>\n");
+			//if(data.$summary) microformat += ("<><p class=\"summary\">" + data.$summary + "</p>\n");
+			if(data.$author) microformat += ("<p><label>By </label><span class=\"author\">" + data.$author + "</span></p>\n");
 			if(data.$published) microformat += ("<p>Published <span class=\"published\">" + data.$published + "</span></p>\n");
 
 			if(data.$photos.length>0 && data.$photos[0].length > 0) {
 				microformat += ("<img src=\"" + data.$photos[0] + "\" class=\"photo\" style=\"height:140px;width:140px;border-width:0px;\" alt=\"" + data.$recName + "\">\n");
 			}
 			if(data.$summery) microformat += ("<p class=\"summery\">" + data.$summery + "</p>\n");
-			microformat +="<h2>Ingredients</h2>\n"
-			microformat +="<ul>\n"
-			for(i in data.$ingredients) {
+			microformat +="<h2>Ingredients</h2>\n";
+			microformat +="<ul>\n";
+			for(var i in data.$ingredients) {
 				if(data.$ingredients[i].length >0) {
 					microformat += ("<li class=\"ingredient\">" + data.$ingredients[i] + "</li>\n");
 				}
 			}
-			microformat +="</ul>\n"
+			microformat +="</ul>\n";
 			
 			if(data.$instructions) {
 				microformat +="<h2>Instructions</h2>\n";
@@ -368,10 +391,9 @@
 					}
 				}
 				microformat +="</" + listType + ">\n";
-				//microformat += ("<span class=\"instructions\">" + data.$instructions + "</span>\n");
 			}
 			
-			if(data.$yield) microformat += ("<p>Yield:<span class=\"yield\"> "+data.$yield+"</span></p>\n");
+			if(data.$yield) microformat += ("<p><span style='font-weight:bold;'>Yield:</span><span class=\"yield\"> "+data.$yield+"</span></p>\n");
 			
 			if(data.$preptime || data.$cooktime) {
 				microformat += "<span class=\"duration\">\n";
@@ -381,12 +403,12 @@
 				
 				if(data.$preptime) {
 					prep = parseTime(data.$preptime);
-					microformat += ("<p>Prep Time:<span class=\"preptime\"><span class=\"value-title\" title=\""+prep+"\"></span> "+data.$preptime+"</span></p>\n");
+					microformat += ("<p><span style='font-weight:bold;'>Prep Time:</span><span class=\"preptime\"><span class=\"value-title\" title=\""+prep+"\"></span> "+data.$preptime+"</span></p>\n");
 					
 				}
 				if(data.$cooktime) {
 					cook = parseTime(data.$cooktime);
-					microformat += ("<p>Cook time:<span class=\"cooktime\"><span class=\"value-title\" title=\""+cook+"\"></span> "+data.$cooktime+"</span></p>\n");				
+					microformat += ("<p><span style='font-weight:bold;'>Cook time:</span><span class=\"cooktime\"><span class=\"value-title\" title=\""+cook+"\"></span> "+data.$cooktime+"</span></p>\n");				
 				}
 				
 				microformat += "</span>\n";
@@ -395,8 +417,8 @@
 			if(data.$nutritions.length>0 && data.$nutritions[0].length > 0) {
 				microformat +="<h2>Nutrition</h2>\n";
 				microformat +="<p>\n";
-				microformat +="<span class=\"nutrition\">"
-				for(n in data.$nutritions) {
+				microformat +="<span class=\"nutrition\">";
+				for(var n in data.$nutritions) {
 					if(data.$nutritionTypes[n].length >0) {
 					microformat += toProperCase(data.$nutritionTypes[n])+": <span class=\""+ (data.$nutritionTypes[n].replace(" ","")).toLowerCase() + "\">" +(data.$nutritions[n] + "</span>\n");
 					}
@@ -405,8 +427,8 @@
 			}    
 			if(data.$tags && data.$tags.length >0 && data.$tags[0].length > 0) {
 				var tagCode = [];
-				microformat +="<span>Tags: ";
-				for(t in data.$tags) {
+				microformat +="<span style='font-weight:bold;'>Tags: </span>";
+				for(var t in data.$tags) {
 					tagCode.push("<span class=\"tag\">"+data.$tags[t]+"</span>");
 				}	
 				microformat += tagCode.join(',');
@@ -422,10 +444,10 @@
 	 * Makes first letter of each word uppercase.
 	 */
 	function toProperCase(strIn) {
-		var results = []
+		var results = [];
 		if(strIn) {
 			var words = strIn.toLowerCase().split(" ");
-			for(w in words) {
+			for(var w in words) {
 				var first = words[w].charAt(0).toUpperCase();
 				results.push(first + words[w].substr(1));
 			}
@@ -447,5 +469,20 @@
 		
 		return result;
 	}
+
+    /**
+     * 
+     */
+    function showPreview() {
+        console.log($('#previewBtn').val());
+        if($('#previewBtn').val() == 'Preview') {
+            $('#previewBtn').val('Results');
+        } else {
+            $('#previewBtn').val('Preview');
+        }
+        $('#preview').html($('#results').val());
+        $('#results').toggle();
+        $('#preview').toggle();
+    }
 
 $(document).ready(initForm);
