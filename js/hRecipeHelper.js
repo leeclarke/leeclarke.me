@@ -1,4 +1,4 @@
-//TODO: Add preview option
+//TODO: Debug Preview button in FF3.x
 //TODO: add inline help bubbles to fields.
 //TODO: add copy paste button.
 //TODO: Add ability to toggle off the line breaks in results.
