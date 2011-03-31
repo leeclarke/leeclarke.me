@@ -481,7 +481,7 @@
      * 
      */
     function showPreview() {
-        console.log($('#previewBtn').val());
+        debug($('#previewBtn').val());
         if($('#previewBtn').val() == 'Preview') {
             $('#previewBtn').val('Results');
         } else {
