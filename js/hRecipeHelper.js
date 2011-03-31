@@ -116,6 +116,13 @@
         
         //bind blur to save data
         $('body').bind('focusout', saveFormData);
+        
+        var link = document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = 'http://leeclarke.me/projects/favicon.ico';
+        document.getElementsByTagName('head')[0].appendChild(link);
+
 	}
 
 	/**
