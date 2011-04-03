@@ -87,7 +87,7 @@
 			   minlength: jQuery.format("At least {0} characters required!")
 			 },
 			 ingredient0: {
-			   required: "Requires 1 ingrediant.",
+			   required: "Requires 1 ingredient.",
 			   minlength: jQuery.format("At least {0} characters required!")
 			 }			 
 		   },
@@ -334,13 +334,12 @@
 
 	
 	/**
-	 * //Cant use Chrome with the Blogger api with out getting an ugly popup... so odd, come on google really?
-	 * Moving output to the popup to display for copy/paste
+	 * 
 	 */
 	function processData(data) {
 		var currentURL = "";
 		//debug		
-		var toString = "rec-name:"+ data.$recName + " ingrediants:"+ data.$ingredients + " yield:" + data.$yield;
+		var toString = "rec-name:"+ data.$recName + " ingredients:"+ data.$ingredients + " yield:" + data.$yield;
 		debug("got data:  "+toString);
 
 		var hRecipeCode = convertTohRecipe(data);
