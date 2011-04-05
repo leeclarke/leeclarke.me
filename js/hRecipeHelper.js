@@ -1,3 +1,4 @@
+//TODO: Fix bug with Summery field not clearing/saving.
 //TODO: add inline help bubbles to fields.
 //TODO: add copy paste button.
 //TODO: Add ability to toggle off the line breaks in results.
@@ -87,7 +88,7 @@
 			   minlength: jQuery.format("At least {0} characters required!")
 			 },
 			 ingredient0: {
-			   required: "Requires 1 ingrediant.",
+			   required: "Requires 1 ingredient.",
 			   minlength: jQuery.format("At least {0} characters required!")
 			 }			 
 		   },
@@ -136,59 +137,62 @@
      * Loads saved data into form fields.
      */
     function setFormValues(formData) {
-		$('#recName').val(formData.$recName);			
-		for(var i in formData.$ingredients) {
-			if(i==0) {
-				$('#ingredient0').val(formData.$ingredients[i]);
-			} else {
-				addFormField('ingredient', false, formData.$ingredients[i]);				
-			}
-		}
-		if(formData.$ingredients.length == 0) {
-			clearArrayFields('ingredient');
-		}
-		if(formData.$instructions.length == 0) {
-					clearArrayFields('instruction');
-		}
-		
-		$('#yield').val((formData.$yield == 0)?"":formData.$yield);
-		$('#cooktime').val((formData.$cooktime == 0)?"":formData.$cooktime);
-		$('#preptime').val((formData.$preptime == 0)?"":formData.$preptime);
-		$('#photo').val((formData.$photos[0])?formData.$photos[0]:"");
-		$('#author').val(formData.$author);
-		$('#published').val(formData.$published);
-		$('#instruction0').val(formData.$instructions[0]);
-		for(i in formData.$instructions) {
-			if(i==0) {
-				$('#instruction0').val(formData.$instructions[i]);
-			} else {
-				if(formData.$instructions[i].length > 0)
-					addFormField('instruction', false, formData.$instructions[i], true);				
-			}
-		}
-
-		for(n in formData.$nutritions) {
-			if(n==0) {
-				$('#nutrition').val(formData.$nutritions[n]);
-				$('.'+'nutritionType').val(formData.$nutritionTypes[n]);
-			} else {
-				if(formData.$nutritions[n].length > 0) {
-					appendNutrition(formData.$nutritions[n], formData.$nutritionTypes[n]);
+    	if(formData != null) {
+			$('#recName').val(formData.$recName);			
+			for(var i in formData.$ingredients) {
+				if(i==0) {
+					$('#ingredient0').val(formData.$ingredients[i]);
+				} else {
+					addFormField('ingredient', false, formData.$ingredients[i]);				
 				}
 			}
-		}		
-		if(formData.$nutritions.length == 0) {
-			clearArrayFields('nutrition');
-		}
+			if(formData.$ingredients.length == 0) {
+				clearArrayFields('ingredient');
+			}
+			if(formData.$instructions.length == 0) {
+						clearArrayFields('instruction');
+			}
+			
+			$('#summary').val((formData.$summery == 0)?"":formData.$summery);
+			$('#yield').val((formData.$yield == 0)?"":formData.$yield);
+			$('#cooktime').val((formData.$cooktime == 0)?"":formData.$cooktime);
+			$('#preptime').val((formData.$preptime == 0)?"":formData.$preptime);
+			$('#photo').val((formData.$photos[0])?formData.$photos[0]:"");
+			$('#author').val(formData.$author);
+			$('#published').val(formData.$published);
+			$('#instruction0').val(formData.$instructions[0]);
+			for(i in formData.$instructions) {
+				if(i==0) {
+					$('#instruction0').val(formData.$instructions[i]);
+				} else {
+					if(formData.$instructions[i].length > 0)
+						addFormField('instruction', false, formData.$instructions[i], true);				
+				}
+			}
 
-		$('#summery').val(formData.$summery);
-		var tagStrings = (formData.$tags)? formData.$tags.join():''; 
-		$('#tag').val(tagStrings);		
+			for(n in formData.$nutritions) {
+				if(n==0) {
+					$('#nutrition').val(formData.$nutritions[n]);
+					$('.'+'nutritionType').val(formData.$nutritionTypes[n]);
+				} else {
+					if(formData.$nutritions[n].length > 0) {
+						appendNutrition(formData.$nutritions[n], formData.$nutritionTypes[n]);
+					}
+				}
+			}		
+			if(formData.$nutritions.length == 0) {
+				clearArrayFields('nutrition');
+			}
+
+			$('#summery').val(formData.$summery);
+			var tagStrings = (formData.$tags)? formData.$tags.join():''; 
+			$('#tag').val(tagStrings);		
+		}
 	}	
 
 	/* Add listener to catch popup close event. */
 	//var background = chrome.extension.getBackgroundPage();
-	addEventListener("unload", function (event) {
+	$(this).bind("unload", function (event) {
 		initData();
 	}, true);
 
@@ -334,13 +338,12 @@
 
 	
 	/**
-	 * //Cant use Chrome with the Blogger api with out getting an ugly popup... so odd, come on google really?
-	 * Moving output to the popup to display for copy/paste
+	 * 
 	 */
 	function processData(data) {
 		var currentURL = "";
 		//debug		
-		var toString = "rec-name:"+ data.$recName + " ingrediants:"+ data.$ingredients + " yield:" + data.$yield;
+		var toString = "rec-name:"+ data.$recName + " ingredients:"+ data.$ingredients + " yield:" + data.$yield;
 		debug("got data:  "+toString);
 
 		var hRecipeCode = convertTohRecipe(data);
