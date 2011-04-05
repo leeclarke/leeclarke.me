@@ -33,34 +33,26 @@ function debug(msg) {
  * Retrieves form data from localStorage.
  */
 function loadFormData() {
-	try {
-		var objStr = localStorage["hRecipeData"];
-		debug("loadedData == "+objStr);
-		var formDataParse;
-		if(objStr && objStr.length >2){
-			formDataParse = jQuery.parseJSON(objStr);
-			debug("formDataParse == "+formDataParse + " name==" + formDataParse.$recName);
-		}
-		return formDataParse;
-	} catch(err){
-		return null;
+	var objStr = localStorage["hRecipeData"];
+	debug("loadedData == "+objStr);
+	var formDataParse;
+	if(objStr && objStr.length >2){
+		formDataParse = jQuery.parseJSON(objStr);
+		debug("formDataParse == "+formDataParse + " name==" + formDataParse.$recName);
 	}
+	return formDataParse;
 }
 
 /**
  * Write form data to localStorage as Json string.
  */
 function saveFormData(formData) {
-	if(localStorage){
-		localStorage["hRecipeData"] = JSON.stringify(formData);
-	}
+	localStorage["hRecipeData"] = JSON.stringify(formData);
 }
 
 /**
  * Removes form data from localStorage.
  */
 function deleteFormData() {
-	if(localStorage){
-		localStorage["hRecipeData"] = "";
-	}
+	localStorage["hRecipeData"] = "";
 }
