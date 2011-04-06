@@ -16,13 +16,6 @@
 		setFormValues(formData);
 	}
     
-    
-/*    function saveFormData() {
-        var formData = initData();
-        saveFormData(formData);   
-        debug('Form data saved');
-    }*/
-    
 	/**
 	 * Initializes the Form after load.
 	 */
@@ -139,6 +132,7 @@
      * Loads saved data into form fields.
      */
     function setFormValues(formData) {
+debug('setFormValues');
         if(!formData) {
             return;   
         }
@@ -188,7 +182,7 @@
 			clearArrayFields('nutrition');
 		}
 
-		$('#summery').val(formData.$summery);
+		$('#summary').val(formData.$summary);
 		var tagStrings = (formData.$tags)? formData.$tags.join():''; 
 		$('#tag').val(tagStrings);		
 	}	
@@ -222,7 +216,7 @@
 	 * collect data and create dto. Save to local.
 	 */
 	function initData() {
-
+debug('initData');
 		debug("is valid=="+	$("#recipeForm").valid());
 
 		var formData = new FormData();		
@@ -249,7 +243,7 @@
 		formData.$nutritionTypes = $("[id^=nutritionType]").map(function(){return $(this).val();}).get();
 		formData.$nutritions = getFormArray('nutrition');
 		debug('nutrition==' + formData.$nutritions.toString());
-		//formData.$summery = $('#summery').val('');
+		formData.$summary = $('#summary').val();
 		formData.$tags = $('#tag').val().split(',');
 		
 		debug("formData.nTypes="+ formData.$nutritionTypes );
@@ -384,7 +378,7 @@
 			if(data.$photos.length>0 && data.$photos[0].length > 0) {
 				microformat += ("<img src=\"" + data.$photos[0] + "\" class=\"photo\" style=\"height:140px;width:140px;border-width:0px;\" alt=\"" + data.$recName + "\">\n");
 			}
-			if(data.$summery) microformat += ("<p class=\"summery\">" + data.$summery + "</p>\n");
+			if(data.$summary) microformat += ("<p class=\"summary\">" + data.$summary + "</p>\n");
 			microformat +="<h2>Ingredients</h2>\n";
 			microformat +="<ul>\n";
 			for(var i in data.$ingredients) {
