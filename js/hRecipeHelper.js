@@ -122,6 +122,9 @@
         link.href = 'http://leeclarke.me/projects/favicon.ico';
         document.getElementsByTagName('head')[0].appendChild(link);
 
+        if(navigator.userAgent.indexOf('Chrome')>-1) {
+            $('.got-chrome').html('Awesome, you have Chrome!<br><a class="a-got-chrome" href="http://bit.ly/f9xRrl">Click to try the Chrome Extension. ' +  ' </a>');
+        }
 	}
 
 	/**

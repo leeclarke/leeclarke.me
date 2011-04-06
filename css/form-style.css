@@ -71,5 +71,17 @@ th {
     padding: 10px
 }
 .tabs-1 {
-       margin-bottom: 0px ;
+    margin-bottom: 0px ;
+}
+
+.got-chrome{
+    position:fixed;
+    top:30px;
+    left:10px;
+}
+
+.a-got-chrome{
+    text-decoration: none;   
+    color: #285C00;
+    font-weight: bold;
 }
