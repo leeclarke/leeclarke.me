@@ -36,10 +36,15 @@ function loadFormData() {
 	var objStr = localStorage["hRecipeData"];
 	debug("loadedData == "+objStr);
 	var formDataParse;
-	if(objStr && objStr.length >2){
-		formDataParse = jQuery.parseJSON(objStr);
-		debug("formDataParse == "+formDataParse + " name==" + formDataParse.$recName);
-	}
+    try {
+    	if(objStr && objStr.length >2){
+    		formDataParse = jQuery.parseJSON(objStr);
+    		debug("formDataParse == "+formDataParse + " name==" + formDataParse.$recName);
+    	}
+    } catch(err){
+        debug(err);
+        formDataParse = new FormData();
+    }
 	return formDataParse;
 }
 
@@ -47,7 +52,9 @@ function loadFormData() {
  * Write form data to localStorage as Json string.
  */
 function saveFormData(formData) {
-	localStorage["hRecipeData"] = JSON.stringify(formData);
+    if(formData) {
+	    localStorage["hRecipeData"] = JSON.stringify(formData);
+    }
 }
 
 /**

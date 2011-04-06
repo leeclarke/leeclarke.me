@@ -139,6 +139,10 @@
      * Loads saved data into form fields.
      */
     function setFormValues(formData) {
+        if(!formData) {
+            return;   
+        }
+        
 		$('#recName').val(formData.$recName);			
 		for(var i in formData.$ingredients) {
 			if(i==0) {
@@ -245,7 +249,7 @@
 		formData.$nutritionTypes = $("[id^=nutritionType]").map(function(){return $(this).val();}).get();
 		formData.$nutritions = getFormArray('nutrition');
 		debug('nutrition==' + formData.$nutritions.toString());
-		formData.$summery = $('#summery').val('');
+		//formData.$summery = $('#summery').val('');
 		formData.$tags = $('#tag').val().split(',');
 		
 		debug("formData.nTypes="+ formData.$nutritionTypes );
