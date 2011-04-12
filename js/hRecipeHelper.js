@@ -189,7 +189,7 @@ debug('setFormValues');
 
 	/* Add listener to catch popup close event. */
 	//var background = chrome.extension.getBackgroundPage();
-	addEventListener("unload", function (event) {
+	$(this).bind("unload", function (event) {
 		initData();
 	}, true);
 

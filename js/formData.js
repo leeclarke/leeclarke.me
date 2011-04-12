@@ -33,10 +33,11 @@ function debug(msg) {
  * Retrieves form data from localStorage.
  */
 function loadFormData() {
-	var objStr = localStorage["hRecipeData"];
-	debug("loadedData == "+objStr);
-	var formDataParse;
-    try {
+	try {
+		var objStr = localStorage["hRecipeData"];
+		debug("loadedData == "+objStr);
+		var formDataParse;
+    
     	if(objStr && objStr.length >2){
     		formDataParse = jQuery.parseJSON(objStr);
     		debug("formDataParse == "+formDataParse + " name==" + formDataParse.$recName);
