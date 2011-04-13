@@ -45,3 +45,12 @@ p.left-col{
 .profile {
 	border:2px solid #031634;
 }
+
+header H4 {
+	margin: -.4em 1.0em 1.0em 4.0em;
+}
+
+header H1 {
+	margin-bottom: .05em;
+	margin-top: .20em;
+}
