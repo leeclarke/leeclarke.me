@@ -42,6 +42,10 @@ p.left-col{
 	width:50%;
 }
 
+.right-col h3{
+	padding-left: 10px;
+}
+
 .profile {
 	border:2px solid #031634;
 }
@@ -53,4 +57,45 @@ header H4 {
 header H1 {
 	margin-bottom: .05em;
 	margin-top: .20em;
+}
+
+.skills {
+	list-style: none;
+	padding: 0 0 0 10px;
+    margin: 0 0 10px 0;
+    font-weight: bold;
+}
+
+.skills li {
+	padding-left: 25px;
+	background-repeat: no-repeat;
+	background-position: 0 .1em;
+}
+
+.code {
+	background-image: url(../img/java.png);
+}
+
+.services {
+	background-image: url(../img/service.gif);
+}
+
+.db {
+	background-image: url(../img/db.png);
+}
+
+.web {
+	background-image: url(../img/internet.png);
+}
+
+.oss {
+	background-image: url(../img/github.png);
+}
+
+.nix {
+	background-image: url(../img/nix.png);
+}
+
+.teach {
+	background-image: url(../img/teach.png);
 }
