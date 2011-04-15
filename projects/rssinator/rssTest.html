@@ -1,0 +1,34 @@
+<!--http://www.pandora.com/music/song/la+roux/in+for+kill-->
+
+<html>
+<head>
+    <!--B-->
+    <script language="javascript" src="rssajax6.js"></script>
+    <!--C-->
+    <style type="text/css">
+        #chan_items { margin: 20px; }
+        #chan_items #item { margin-bottom: 10px; }
+        #chan_items #item #item_title { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <!--A-->
+    <form name="rssform" onsubmit="getRSS(); return false;">
+        <select name="rssurl">
+            <option value="http://lees2bytes.blogspot.com/feeds/posts/default">Blog RSS feed</option>
+            <option value="google-rss.xml">google RSS feed</option>
+        </select>
+        <input type="submit" value="fetch rss feed" />
+    </form>
+
+    <div id="chan">
+        <div id="chan_title"></div>
+        <div id="chan_link"></div>
+        <div id="chan_description"></div>
+        <a id="chan_image_link" href=""></a>
+        <div id="chan_items"></div>
+        <div id="chan_pubDate"></div>
+        <div id="chan_copyright"></div>
+    </div>
+</body>
+</html>
