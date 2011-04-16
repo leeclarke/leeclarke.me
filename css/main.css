@@ -99,3 +99,56 @@ header H1 {
 .teach {
 	background-image: url(../img/teach.png);
 }
+
+ul.social {
+	list-style: none;
+	font-weight: bold;
+	overflow: hidden;
+}
+
+ul.socail li {
+	float: left;
+    margin: 0 0 10px 0;
+}
+
+
+ul.social li a{
+	display: block;
+    width: 209px;
+    height: 48px;
+    padding: 8px;
+    color: #00324b;
+    overflow: hidden;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    position: relative;
+    text-decoration: none;
+}
+
+ul.social li a:hover {
+    background-color: rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+ul.social li a:active {
+    background-color: rgba(0,0,0,0.2);
+    top: 1px;
+}
+
+ul.social li a img {
+    float: left;
+    margin: 0 12px 0 0;
+}
+
+ul.social li a span.title {
+    font-size: 16px;
+    line-height: 28px;
+}
+
+ul.social li a span {
+    font-size: 13px;
+    font-weight: normal;
+}
+
+
