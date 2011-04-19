@@ -73,7 +73,7 @@ public class RESTinator extends Controller {
      * @return - DO of the feeds data.
      * @throws IOException - if the URL isn't any good, cough up a hairball. 
      */
-    protected static FeedData getFeedFromUrl(String url) throws IOException {
+    public static FeedData getFeedFromUrl(String url) throws IOException {
         Parser parser = new Parser();
         URL feedurl = new URL("http://lees2bytes.blogspot.com/feeds/posts/default");
         URLConnection testConn = feedurl.openConnection();

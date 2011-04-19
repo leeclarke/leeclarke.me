@@ -1,6 +1,34 @@
 # you describe your data using the YAML notation here
 # and then load them using Fixtures.load("data.yml")
 
+ MonitoredFeed:
+   created: 2011-04-01
+   expires: 2011-04-29
+   url: localhost/rss/notfound
+   feedName: Not Found
+   suspended: false 
+
+ MonitoredFeed:
+   created: 2011-04-01
+   expires: 2011-04-29
+   url: lees2bytes.blogspot.com/feeds/posts/default
+   feedName: My Blog
+   suspended: false 
+
+ MonitoredFeed(expired):
+   created: 2011-04-01
+   expires: 2011-04-01
+   url: ws.audioscrobbler.com/2.0/user/lees2bytes/recenttracks.rss
+   feedName: Test Feed 3
+   suspended: false 
+
+ MonitoredFeed(suspended):
+   created: 2011-04-01
+   expires: 2011-04-01
+   url: http:/www.host.com/feed/suspended
+   feedName: Test Feed 3
+   suspended: true 
+
 # User(bob):
 #   email: bob@gmail.com
 #   password: secret

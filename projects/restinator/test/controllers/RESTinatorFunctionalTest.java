@@ -14,7 +14,7 @@ public class RESTinatorFunctionalTest extends FunctionalTest {
     static final String jsonPath = "/json/";
 
     //TODO figure out more RESTful way to call this, currently it only works with this type of call:  Maybe this is ok?
-    //   http://localhost:9000/json/i?url=lees2bytes.blogspot.com/feeds/posts/default
+    //   http://localhost:9000/json/parse?url=lees2bytes.blogspot.com/feeds/posts/default
     @Test
     public void testGetJSONFromXMLFeed() {
         
