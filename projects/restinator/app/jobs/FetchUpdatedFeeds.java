@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import models.MonitoredFeed;
+
+import org.apache.log4j.Logger;
+
 import play.cache.Cache;
 import play.jobs.Every;
 import play.jobs.Job;
@@ -17,7 +20,8 @@ import controllers.RESTinator;
 
 @Every("5m")
 public class FetchUpdatedFeeds extends Job {
-
+    static final String FEED_RESULTS_CACHE_KEY = "feedResults";
+    static final Logger logger = Logger.getLogger(FetchUpdatedFeeds.class);
     @Override
     public void doJob() throws Exception {
        updateFeeds();
@@ -28,7 +32,7 @@ public class FetchUpdatedFeeds extends Job {
      */
     protected void updateFeeds() {
         //1. Check cache to see if empty and if so update all Caches.
-        HashMap<String, String> feedResults = Cache.get("feedResults", HashMap.class);
+        HashMap<String, String> feedResults = Cache.get(FEED_RESULTS_CACHE_KEY, HashMap.class);
         List<MonitoredFeed> feeds;
         if(feedResults == null) {
             feedResults = new HashMap<String, String>();
@@ -53,12 +57,7 @@ public class FetchUpdatedFeeds extends Job {
                 feedResults.put(monitoredFeed.url, "{}");
             }
         }
-        //Check MonitoredFeeds for expired feeds, not suspended.
-        //  retrieve Expired Feed
-        //  Parse feed into JSON
-        //  Add JSON to Cache, key ==URL
-        //  Update expired in MonitoredFeed for +4mins
-        //      Update expired in MonitoredFeed for +4mins
+        Cache.set(FEED_RESULTS_CACHE_KEY, feedResults, "30mn");
     }
 
 }

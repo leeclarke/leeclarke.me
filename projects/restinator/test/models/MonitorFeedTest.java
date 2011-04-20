@@ -42,4 +42,13 @@ public class MonitorFeedTest extends UnitTest {
         assertEquals("Test Feed 3", results.get(0).feedName);
     }
     
+    @Test
+    public void testGetActiveFeeds() {
+        List<MonitoredFeed> results = MonitoredFeed.getActiveFeeds();
+        assertNotNull(results);
+        Logger.debug("Active Results == %s", results.toString());
+        assertTrue("Result set should be all entries with suspend==false. results ="+results,results.size()>=3);
+        
+    }
+    
 }

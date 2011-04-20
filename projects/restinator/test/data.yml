@@ -1,14 +1,14 @@
 # you describe your data using the YAML notation here
 # and then load them using Fixtures.load("data.yml")
 
- MonitoredFeed:
+ MonitoredFeed(Feed1):
    created: 2011-04-01
    expires: 2011-04-29
    url: localhost/rss/notfound
    feedName: Not Found
    suspended: false 
 
- MonitoredFeed:
+ MonitoredFeed(Feed2):
    created: 2011-04-01
    expires: 2011-04-29
    url: lees2bytes.blogspot.com/feeds/posts/default

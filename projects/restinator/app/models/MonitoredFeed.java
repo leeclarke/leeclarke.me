@@ -71,9 +71,7 @@ public class MonitoredFeed extends Model {
      * @return - all unsuspended feeds
      */
     public static List<MonitoredFeed> getActiveFeeds() {
-        List params = new ArrayList<Object>();
-        params.add(Calendar.getInstance().getTime());
-        List<MonitoredFeed> feeds = MonitoredFeed.find("suspended = false order by expires desc", params.toArray()).fetch() ;
+        List<MonitoredFeed> feeds = MonitoredFeed.find("suspended = false order by expires desc").fetch() ;
         return feeds;        
     }
 
