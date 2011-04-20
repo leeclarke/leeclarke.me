@@ -27,9 +27,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+
+import jobs.FetchUpdatedFeeds;
 
 import org.apache.log4j.Logger;
 
+import play.cache.Cache;
 import play.mvc.Controller;
 import uk.org.catnip.eddie.FeedData;
 import uk.org.catnip.eddie.parser.Parser;
@@ -47,9 +51,10 @@ public class RESTinator extends Controller {
     private static final String STATUS_INVALID_INPUT = "{status:Invalid Input}";
     static final Logger logger = Logger.getLogger(RESTinator.class);
     
-//TODO: Make RESTinator check CAche before trying to retrieve a feed.    
+//TODO: TEST: Make RESTinator check Cache before trying to retrieve a feed.    
 //TODO: Add ability to maintain Feeds to be retrieved for cache 
 //TODO: Build secured admin interface.    
+//TODO: Enhancement - make the Cacheable object better then a Map, give functions to manage etc..   
 //DONE: Add Caching capability
 //DONE: Add a JOB to retrieve the Feeds. 
 //DONE: (Not much point doing this cuz it has to do a full retrieve every time.)Also a feed check that just sees if feed has been updated. 
@@ -61,8 +66,16 @@ public class RESTinator extends Controller {
         try {
             logger.debug("REST POSTED Sensor Data Temp");
             body = streamToString(request.body);
-            FeedData feed = getFeedFromUrl(url);
-            renderJSON(feed);
+            HashMap<String, String> feedResults = Cache.get(FetchUpdatedFeeds.FEED_RESULTS_CACHE_KEY, HashMap.class);
+            String cachedJson = feedResults.get(url);
+            if(cachedJson != null){
+                logger.debug("Retriving results from Cache");
+                renderJSON(cachedJson);
+            } else {
+                logger.debug("No Cached result, pull from feed");
+                FeedData feed = getFeedFromUrl(url);
+                renderJSON(feed);
+            }            
         } catch (Exception e) {
             logger.warn(LOG_MSG_FAILED_TO_CONVERT_REST_POST_JSON_INPUT + body);
             renderJSON(STATUS_INVALID_INPUT);

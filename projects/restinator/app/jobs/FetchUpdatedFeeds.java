@@ -20,7 +20,7 @@ import controllers.RESTinator;
 
 @Every("5m")
 public class FetchUpdatedFeeds extends Job {
-    static final String FEED_RESULTS_CACHE_KEY = "feedResults";
+    public static final String FEED_RESULTS_CACHE_KEY = "feedResults";
     static final Logger logger = Logger.getLogger(FetchUpdatedFeeds.class);
     @Override
     public void doJob() throws Exception {
