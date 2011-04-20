@@ -47,9 +47,10 @@ public class RESTinator extends Controller {
     private static final String STATUS_INVALID_INPUT = "{status:Invalid Input}";
     static final Logger logger = Logger.getLogger(RESTinator.class);
     
-//DONE: Add Caching capability
+//TODO: Make RESTinator check CAche before trying to retrieve a feed.    
 //TODO: Add ability to maintain Feeds to be retrieved for cache 
 //TODO: Build secured admin interface.    
+//DONE: Add Caching capability
 //DONE: Add a JOB to retrieve the Feeds. 
 //DONE: (Not much point doing this cuz it has to do a full retrieve every time.)Also a feed check that just sees if feed has been updated. 
     /**
