@@ -30,11 +30,12 @@ public class FetchUpdatedFeeds extends Job {
     /**
      * Checks the fees for updates and caches results when needed
      */
-    protected void updateFeeds() {
+    public void updateFeeds() {
         //1. Check cache to see if empty and if so update all Caches.
         HashMap<String, String> feedResults = Cache.get(FEED_RESULTS_CACHE_KEY, HashMap.class);
         List<MonitoredFeed> feeds;
         if(feedResults == null) {
+            play.Logger.debug("Setting up new Cache map");
             feedResults = new HashMap<String, String>();
             feeds = MonitoredFeed.getActiveFeeds();
             
@@ -42,7 +43,7 @@ public class FetchUpdatedFeeds extends Job {
             feeds = MonitoredFeed.getUpdatableFeeds();
             
         }
-        
+        play.Logger.debug("Retrieved feeds from db = %s", feeds.size());
         Calendar expiresTime = Calendar.getInstance();
         expiresTime.add(Calendar.MINUTE, 4);
         for (MonitoredFeed monitoredFeed : feeds) {
@@ -59,6 +60,5 @@ public class FetchUpdatedFeeds extends Job {
         }
         Cache.set(FEED_RESULTS_CACHE_KEY, feedResults, "30mn");
     }
-
 }
 

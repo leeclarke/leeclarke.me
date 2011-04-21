@@ -16,4 +16,5 @@ public class RESTinatorTest  extends UnitTest {
         assertTrue("At least one Entry should have been returned",result.entries().hasNext());
         result.entries().next();
     }
+    
 }

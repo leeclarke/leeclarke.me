@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.HashMap;
 
 import jobs.FetchUpdatedFeeds;
@@ -51,10 +52,11 @@ public class RESTinator extends Controller {
     private static final String STATUS_INVALID_INPUT = "{status:Invalid Input}";
     static final Logger logger = Logger.getLogger(RESTinator.class);
     
-//TODO: TEST: Make RESTinator check Cache before trying to retrieve a feed.    
 //TODO: Add ability to maintain Feeds to be retrieved for cache 
 //TODO: Build secured admin interface.    
-//TODO: Enhancement - make the Cacheable object better then a Map, give functions to manage etc..   
+//TODO: Enhancement - make the Cacheable object better then a Map, give functions to manage etc..
+//TODO: Build bootstrap job to pre-load Cache on start or ensure it loads on first request.
+//DONE: TEST: Make RESTinator check Cache before trying to retrieve a feed.
 //DONE: Add Caching capability
 //DONE: Add a JOB to retrieve the Feeds. 
 //DONE: (Not much point doing this cuz it has to do a full retrieve every time.)Also a feed check that just sees if feed has been updated. 
@@ -64,15 +66,15 @@ public class RESTinator extends Controller {
     public static void getJSONFromXML(String url) {
         String body = "";
         try {
-            logger.debug("REST POSTED Sensor Data Temp");
-            body = streamToString(request.body);
+            logger.info("REST POSTED url="+url);
+            //body = streamToString(request.body);
             HashMap<String, String> feedResults = Cache.get(FetchUpdatedFeeds.FEED_RESULTS_CACHE_KEY, HashMap.class);
-            String cachedJson = feedResults.get(url);
+            String cachedJson = feedResults.get(URLDecoder.decode(url, "UTF-8"));
             if(cachedJson != null){
-                logger.debug("Retriving results from Cache");
+                logger.warn("Retriving results from Cache");
                 renderJSON(cachedJson);
             } else {
-                logger.debug("No Cached result, pull from feed");
+                logger.warn("No Cached result, pull from feed");
                 FeedData feed = getFeedFromUrl(url);
                 renderJSON(feed);
             }            
