@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import models.MonitoredFeed;
-
-import org.apache.log4j.Logger;
-
+import play.Logger;
 import play.cache.Cache;
 import play.jobs.Every;
 import play.jobs.Job;
@@ -18,12 +16,13 @@ import com.google.gson.Gson;
 
 import controllers.RESTinator;
 
-@Every("5m")
+@Every("5min")
 public class FetchUpdatedFeeds extends Job {
     public static final String FEED_RESULTS_CACHE_KEY = "feedResults";
-    static final Logger logger = Logger.getLogger(FetchUpdatedFeeds.class);
+    
     @Override
     public void doJob() throws Exception {
+       Logger.info("Running Feed updater %s", "");
        updateFeeds();
     }
 
@@ -31,6 +30,7 @@ public class FetchUpdatedFeeds extends Job {
      * Checks the fees for updates and caches results when needed
      */
     public void updateFeeds() {
+        
         //1. Check cache to see if empty and if so update all Caches.
         HashMap<String, String> feedResults = Cache.get(FEED_RESULTS_CACHE_KEY, HashMap.class);
         List<MonitoredFeed> feeds;
@@ -52,7 +52,7 @@ public class FetchUpdatedFeeds extends Job {
                 String json = new Gson().toJson(feed);
                 feedResults.put(monitoredFeed.url, json);
                 monitoredFeed.expires = expiresTime.getTime();
-                monitoredFeed.save();
+                monitoredFeed.insert();
             } catch (IOException e) {
                 //if null in Cache, set error message. else leave it as is.
                 feedResults.put(monitoredFeed.url, "{}");

@@ -6,24 +6,26 @@ import org.junit.Before;
 import org.junit.Test;
 
 import play.Logger;
-import play.test.Fixtures;
+import play.modules.siena.SienaFixture;
 import play.test.UnitTest;
 
 public class MonitorFeedTest extends UnitTest {
     
     @Before
-    public void setUp() {
-        Fixtures.deleteAll();
-        Fixtures.load("data.yml");
+    public void setUp() throws Exception {
+        SienaFixture.deleteAll();
+        SienaFixture.load("data.yml");
+//        Fixtures.deleteAll();
+//        Fixtures.load("data.yml");
     }
     
     @Test
     public void createAndReturn() {
         String url = "www.hostname.com/feed";
         String feedName = "UnitTestFeed";
-        new MonitoredFeed(url,feedName).save();
+        new MonitoredFeed(url,feedName).insert();
         
-        MonitoredFeed result = MonitoredFeed.find("feedName = ?", feedName).first();
+        MonitoredFeed result = MonitoredFeed.all().filter("feedName", feedName).get();
         assertNotNull(result);
         
         assertEquals(url, result.url);

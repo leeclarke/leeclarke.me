@@ -2,7 +2,6 @@ package controllers;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 
 import jobs.FetchUpdatedFeeds;
@@ -11,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import play.cache.Cache;
+import play.modules.siena.SienaFixture;
 import play.mvc.Http.Response;
-import play.test.Fixtures;
 import play.test.FunctionalTest;
 
 /**
@@ -21,12 +20,12 @@ import play.test.FunctionalTest;
  */
 public class RESTinatorFunctionalTest extends FunctionalTest {
     
-    static final String jsonPath = "/json/";
+    static final String jsonPath = "/json?url=";
     
     @Before
-    public void setUp() {
-        Fixtures.deleteAll();
-        Fixtures.load("data.yml");
+    public void setUp() throws Exception {
+        SienaFixture.deleteAll();
+        SienaFixture.load("data.yml");
     }
     
     //TODO figure out more RESTful way to call this, currently it only works with this type of call:  Maybe this is ok?
@@ -38,7 +37,7 @@ public class RESTinatorFunctionalTest extends FunctionalTest {
         fetch.updateFeeds();
         
         String feedUrl = "lees2bytes.blogspot.com/feeds/posts/default";
-        Response response = GET(jsonPath+ URLEncoder.encode(feedUrl,"UTF-8" ));
+        Response response = GET(jsonPath+ feedUrl);
         assertIsOk(response);
         assertContentType("application/json", response);
         assertCharset("utf-8", response);
@@ -66,7 +65,7 @@ public class RESTinatorFunctionalTest extends FunctionalTest {
         feedResults.put(url, jsonExpected);
         Cache.safeReplace(FetchUpdatedFeeds.FEED_RESULTS_CACHE_KEY, feedResults, "30mn");
         
-        Response response = GET(jsonPath+ URLEncoder.encode(url,"UTF-8" ) );
+        Response response = GET(jsonPath+ url );
         assertIsOk(response);
         assertContentType("application/json", response);
         String jsonResp = getContent(response);

@@ -13,6 +13,7 @@ public class Bootstrap extends Job {
     @Override
     public void doJob() throws Exception {
         Logger.warn("Bootstrap Loading Cache %s", "");
+        
         FetchUpdatedFeeds fetch = new FetchUpdatedFeeds();
         fetch.updateFeeds();
     }

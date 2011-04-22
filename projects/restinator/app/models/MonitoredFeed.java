@@ -1,21 +1,23 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
+import siena.Id;
+import siena.Model;
+import siena.Query;
 
-import play.db.jpa.Model;
 
 /**
  * Simple DAO for a Feed which has been configured to be cached on a regular basis. 
  * @author leeclarke
  */
-@Entity
 public class MonitoredFeed extends Model {
 
+    @Id
+    public Long id;
+    
     public Date created;
     public Date expires;
     public String url;
@@ -60,21 +62,21 @@ public class MonitoredFeed extends Model {
      * @return - Feeds ready for update.
      */
     public static List<MonitoredFeed> getUpdatableFeeds() {
-        List params = new ArrayList<Object>();
-        params.add(Calendar.getInstance().getTime());
-        List<MonitoredFeed> feeds = MonitoredFeed.find("suspended = false AND expires <= ? order by expires desc", params.toArray()).fetch() ;
-        return feeds;
-    }
+        return  Model.all(MonitoredFeed.class).filter("suspended", false).filter("expires<=", Calendar.getInstance().getTime()).fetch();
+     }
     
     /**
      * Retrieve Feeds that are not suspended
      * @return - all unsuspended feeds
      */
     public static List<MonitoredFeed> getActiveFeeds() {
-        List<MonitoredFeed> feeds = MonitoredFeed.find("suspended = false order by expires desc").fetch() ;
-        return feeds;        
+        return  Model.all(MonitoredFeed.class).filter("suspended", false).fetch();
     }
 
+    public static Query<MonitoredFeed> all() {
+        return  Model.all(MonitoredFeed.class);
+    }
+    
     @Override
     public String toString() {
         return "MonitoredFeed [created=" + this.created + ", expires=" + this.expires + ", url=" + this.url

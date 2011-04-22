@@ -3,9 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
-GET    /json/{url}								RESTinator.getJSONFromXML
+GET    /                                        Application.index
+GET    /json  								    RESTinator.getJSONFromXML
 GET    /admin/cache                             Admin.listCachedItems
+GET    /admin/seed                              Admin.seedfeeds
+GET    /admin/jobs                              Admin.checkJobStatus
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public

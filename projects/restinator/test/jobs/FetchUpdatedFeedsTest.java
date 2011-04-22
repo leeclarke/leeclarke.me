@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import play.Logger;
 import play.cache.Cache;
-import play.test.Fixtures;
+import play.modules.siena.SienaFixture;
 import play.test.UnitTest;
 
 /**
@@ -20,9 +20,9 @@ import play.test.UnitTest;
 public class FetchUpdatedFeedsTest extends UnitTest {
     
     @Before
-    public void setUp() {
-        Fixtures.deleteAll();
-        Fixtures.load("data.yml");
+    public void setUp() throws Exception {
+        SienaFixture.deleteAll();
+        SienaFixture.load("data.yml");
     }
     
     @Test
@@ -59,11 +59,11 @@ public class FetchUpdatedFeedsTest extends UnitTest {
         }
         
       //make it expired. 
-        MonitoredFeed feed = MonitoredFeed.find("url = ?", targetURL).first();
+        MonitoredFeed feed = MonitoredFeed.all().filter("url", targetURL).get();
         Calendar expDate = Calendar.getInstance();
         expDate.add(Calendar.HOUR, -12);
         feed.expires = expDate.getTime();
-        feed.save();
+        feed.insert();
         
         //Clear Cache just for testing that way it will be null if the update failed.
         feedResults.put(targetURL, null);

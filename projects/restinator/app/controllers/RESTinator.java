@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.util.HashMap;
 
 import jobs.FetchUpdatedFeeds;
@@ -49,13 +48,13 @@ import uk.org.catnip.eddie.parser.Parser;
 public class RESTinator extends Controller {
 
     private static final String LOG_MSG_FAILED_TO_CONVERT_REST_POST_JSON_INPUT = "Failed to convert REST Post. JSON input: ";
-    private static final String STATUS_INVALID_INPUT = "{status:Invalid Input}";
+    private static final String STATUS_INVALID_INPUT = "{\"status\":\"Invalid Input\"}";
     static final Logger logger = Logger.getLogger(RESTinator.class);
-    
-//TODO: Add ability to maintain Feeds to be retrieved for cache 
+//TODO: Remove old play stuff and Write up HowTo convert guide. (It's all out there but not in an article.)
+//DONE: Add ability to maintain Feeds to be retrieved for cache 
 //TODO: Build secured admin interface.    
 //TODO: Enhancement - make the Cacheable object better then a Map, give functions to manage etc..
-//TODO: Build bootstrap job to pre-load Cache on start or ensure it loads on first request.
+//DONE: Build bootstrap job to pre-load Cache on start or ensure it loads on first request.
 //DONE: TEST: Make RESTinator check Cache before trying to retrieve a feed.
 //DONE: Add Caching capability
 //DONE: Add a JOB to retrieve the Feeds. 
@@ -63,13 +62,16 @@ public class RESTinator extends Controller {
     /**
      * REST/JSON services for saving data
      */
-    public static void getJSONFromXML(String url) {
+    public static void getJSONFromXML() {
         String body = "";
         try {
-            logger.info("REST POSTED url="+url);
+            
             //body = streamToString(request.body);
+            String url = request.params.get("url");
+            logger.info("REST POSTED url="+url);
             HashMap<String, String> feedResults = Cache.get(FetchUpdatedFeeds.FEED_RESULTS_CACHE_KEY, HashMap.class);
-            String cachedJson = feedResults.get(URLDecoder.decode(url, "UTF-8"));
+            
+            String cachedJson = (feedResults==null)?null:feedResults.get(url);
             if(cachedJson != null){
                 logger.warn("Retriving results from Cache");
                 renderJSON(cachedJson);
@@ -79,11 +81,21 @@ public class RESTinator extends Controller {
                 renderJSON(feed);
             }            
         } catch (Exception e) {
-            logger.warn(LOG_MSG_FAILED_TO_CONVERT_REST_POST_JSON_INPUT + body);
+            logger.warn(LOG_MSG_FAILED_TO_CONVERT_REST_POST_JSON_INPUT + body, e);
             renderJSON(STATUS_INVALID_INPUT);
         }
     }
     
+    /**
+     * My Bootstrap Job isn't doing anything sometimes.. make it pop the cache.
+     * @return
+     */
+    private static String kickStartJob() {
+        FetchUpdatedFeeds fetch = new FetchUpdatedFeeds();
+        fetch.now();
+        return null;
+    }
+
     /**
      * Retrieves a DO containing the parsed Feeds data.
      * @param url - feed url.
@@ -92,7 +104,7 @@ public class RESTinator extends Controller {
      */
     public static FeedData getFeedFromUrl(String url) throws IOException {
         Parser parser = new Parser();
-        URL feedurl = new URL("http://lees2bytes.blogspot.com/feeds/posts/default");
+        URL feedurl = new URL(url);
         URLConnection testConn = feedurl.openConnection();
         
         FeedData feed = parser.parse(testConn.getInputStream());
