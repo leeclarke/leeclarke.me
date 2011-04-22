@@ -50,7 +50,8 @@ public class RESTinator extends Controller {
     private static final String LOG_MSG_FAILED_TO_CONVERT_REST_POST_JSON_INPUT = "Failed to convert REST Post. JSON input: ";
     private static final String STATUS_INVALID_INPUT = "{\"status\":\"Invalid Input\"}";
     static final Logger logger = Logger.getLogger(RESTinator.class);
-//TODO: Remove old play stuff and Write up HowTo convert guide. (It's all out there but not in an article.)
+//DONE: Add check for http:// if missing when retrieving a feed.
+//DONE: Remove old play stuff and Write up HowTo convert guide. (It's all out there but not in an article.)
 //DONE: Add ability to maintain Feeds to be retrieved for cache 
 //TODO: Build secured admin interface.    
 //TODO: Enhancement - make the Cacheable object better then a Map, give functions to manage etc..
@@ -77,6 +78,9 @@ public class RESTinator extends Controller {
                 renderJSON(cachedJson);
             } else {
                 logger.warn("No Cached result, pull from feed");
+                if(!url.startsWith("http://")){
+                    url = "http://"+url;
+                }
                 FeedData feed = getFeedFromUrl(url);
                 renderJSON(feed);
             }            
