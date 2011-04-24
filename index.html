@@ -12,6 +12,11 @@
 	<script type="text/javascript">
 			function initPage(){
 				$('#tabs').tabs();
+				
+				//Set height to viewable minus the header.
+        var tabs = $(this).find(".tab-content");
+        var body = $(this).find("body");
+        tabs.height( (body.height() - tabs.position().top-30));
 			}
 			$(document).ready(initPage);
 	</script>
@@ -51,6 +56,7 @@
 			</div>
 	    </div>
 	    <div id="tabs-2">
+			<div class="tab-content">
 		  <artical>	
 			<p>
 <script>
@@ -84,9 +90,11 @@ new TWTR.Widget({
 }).render().setUser('lees2bytes').start();
 </script></p>
 		  </artical>
+		  </div>
 		  Soon I'll be adding my Blog and Pandora feeds!
 	    </div>
 	    <div id="tabs-3">
+			<div class="tab-content">
 		  <artical>
 			
 			<ul class="social" style="height:400px; width: 50%; float: left;">
@@ -99,8 +107,10 @@ new TWTR.Widget({
 				<li><a href='http://greenscreenprojects.blogspot.com'><img class="social" src="img/blogger-flat.png"><span class="title">My Non-technical Blog</span></a></li>
 			</ul>		
 		  </artical>
+		  </div>
 	    </div>
 	    <div id="tabs-4">
+			<div class="tab-content">
 		  <artical>
 			<p>I love working on open source software in my free time because it gives me a chance to meet other programmers, sharpen my skills and give soemthing back to the internet community. Some of my current projects are available on Github, others are right here! Hope you find something useful or that teaches you something new!</p>
 			<ul class="project-list">
@@ -110,6 +120,7 @@ new TWTR.Widget({
 				<li>More to come!</li>
 			</ul>
 		  </artical>
+		  </div>
 	    </div>
 		</div>
 	</div>

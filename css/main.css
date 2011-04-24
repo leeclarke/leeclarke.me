@@ -15,7 +15,7 @@ body {
 }
 
 .content {
-	margin-top: 60px ;
+	margin-top: 20px ;
 	width:780px;
 	border: 1px solid #A89000;
 }
@@ -120,7 +120,6 @@ ul.socail li {
     margin: 0 0 10px 0;
 }
 
-
 ul.social li a{
 	display: block;
     width: 209px;
@@ -148,6 +147,7 @@ ul.social li a:active {
 ul.social li a img {
     float: left;
     margin: 0 12px 0 0;
+    border: none;
 }
 
 ul.social li a span.title {
