@@ -35,6 +35,7 @@ import org.apache.log4j.Logger;
 
 import play.cache.Cache;
 import play.mvc.Controller;
+import play.mvc.results.RenderJsonP;
 import uk.org.catnip.eddie.FeedData;
 import uk.org.catnip.eddie.parser.Parser;
 
@@ -75,14 +76,14 @@ public class RESTinator extends Controller {
             String cachedJson = (feedResults==null)?null:feedResults.get(url);
             if(cachedJson != null){
                 logger.warn("Retriving results from Cache");
-                renderJSON(cachedJson);
+                renderJSONP(cachedJson);
             } else {
                 logger.warn("No Cached result, pull from feed");
                 if(!url.startsWith("http://")){
                     url = "http://"+url;
                 }
                 FeedData feed = getFeedFromUrl(url);
-                renderJSON(feed);
+                renderJSONP(feed);
             }            
         } catch (Exception e) {
             logger.warn(LOG_MSG_FAILED_TO_CONVERT_REST_POST_JSON_INPUT + body, e);
@@ -134,5 +135,21 @@ public class RESTinator extends Controller {
             sb.append("Error reading input");
         }
         return sb.toString();
+    }
+    
+    /**
+     * Render a 200 OK text/javascript response
+     * @param jsonString The JSON string
+     */
+    protected static void renderJSONP(String jsonString) {
+        throw new RenderJsonP(jsonString);
+    }
+    
+    /**
+     * Render a 200 OK text/javascript response
+     * @param jsonObject The Object t o be translated to JSON
+     */
+    protected static void renderJSONP(Object jsonObject) {
+        throw new RenderJsonP(jsonObject);
     }
 }
