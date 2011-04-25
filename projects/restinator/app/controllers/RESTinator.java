@@ -51,16 +51,25 @@ public class RESTinator extends Controller {
     private static final String LOG_MSG_FAILED_TO_CONVERT_REST_POST_JSON_INPUT = "Failed to convert REST Post. JSON input: ";
     private static final String STATUS_INVALID_INPUT = "{\"status\":\"Invalid Input\"}";
     static final Logger logger = Logger.getLogger(RESTinator.class);
-//DONE: Add check for http:// if missing when retrieving a feed.
-//DONE: Remove old play stuff and Write up HowTo convert guide. (It's all out there but not in an article.)
-//DONE: Add ability to maintain Feeds to be retrieved for cache 
+//TODO: Deploy JSONP stuff to GAE
+//TODO: intergrate fm feed in page. Test browsers.
+//TODO: Add html5 shim.    
 //TODO: Build secured admin interface.    
 //TODO: Enhancement - make the Cacheable object better then a Map, give functions to manage etc..
+  //DONE: Add check for http:// if missing when retrieving a feed.
+  //DONE: Remove old play stuff and Write up HowTo convert guide. (It's all out there but not in an article.)
+  //DONE: Add ability to maintain Feeds to be retrieved for cache 
+
 //DONE: Build bootstrap job to pre-load Cache on start or ensure it loads on first request.
 //DONE: TEST: Make RESTinator check Cache before trying to retrieve a feed.
 //DONE: Add Caching capability
 //DONE: Add a JOB to retrieve the Feeds. 
 //DONE: (Not much point doing this cuz it has to do a full retrieve every time.)Also a feed check that just sees if feed has been updated. 
+    
+    public static void getTestResponse() {
+    	renderJSONP("{\"Test\":\"OK\"}");
+    }
+    
     /**
      * REST/JSON services for saving data
      */

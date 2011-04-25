@@ -5,6 +5,7 @@
 # Home page
 GET    /                                        Application.index
 GET    /json  								    RESTinator.getJSONFromXML
+GET    /json/test  								    RESTinator.getTestResponse
 GET    /admin/cache                             Admin.listCachedItems
 GET    /admin/seed                              Admin.seedfeeds
 GET    /admin/jobs                              Admin.checkJobStatus
