@@ -1,5 +1,8 @@
 <! doctype html>
 <html lang=en> 
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 	<link type="text/css" href="css/custom-theme/jquery-ui-1.8.11.custom.css" rel="stylesheet" />
 	<link type="text/css" href="css/main.css" rel="stylesheet" />
 	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
@@ -14,9 +17,10 @@
 				$('#tabs').tabs();
 				
 				//Set height to viewable minus the header.
-        var tabs = $(this).find(".tab-content");
-        var body = $(this).find("body");
-        tabs.height( (body.height() - tabs.position().top-30));
+				var tabs = $(this).find(".tab-content");
+				var body = $(this).find("body");
+				tabs.height( (body.height() - tabs.position().top-30));
+				
 			}
 			$(document).ready(initPage);
 	</script>
@@ -95,18 +99,17 @@ new TWTR.Widget({
 	    </div>
 	    <div id="tabs-3">
 			<div class="tab-content">
-		  <artical>
-			
-			<ul class="social" style="height:400px; width: 50%; float: left;">
-				<li><a href='http://blog.leeclarke.me'><img class="social" src="img/blogger-flat.png"><span class="title">My Tech Blog</span></a></li>
-				<li><a href='http://twitter.leeclarke.me'><img class="social" src="img/twitter_flat.png"><span class="title">Twitter</span></a></li>
-				<li><a href='https://github.com/leeclarke'><img class="social" src="img/github-flat.png"><span class="title">Github</span></a></li>
-			</ul><ul class="social">
-				<li><a href='http://forrst.me/leeclarke'><img class="social" src="img/forrst_icon.png"><span class="title">Forrst</span></a></li>
-				<li><a href="http://www.goodreads.com/user/show/3482835-lee"><img class="social" src="img/goodreads.png"><span class="title">GoodReads</span></a></li>
-				<li><a href='http://greenscreenprojects.blogspot.com'><img class="social" src="img/blogger-flat.png"><span class="title">My Non-technical Blog</span></a></li>
-			</ul>		
-		  </artical>
+		  	<artical>
+				<ul class="social" style="height:400px; width: 50%; float: left;">
+					<li><a href='http://blog.leeclarke.me'><img class="social" src="img/blogger-flat.png"><span class="title">My Tech Blog</span></a></li>
+					<li><a href='http://twitter.leeclarke.me'><img class="social" src="img/twitter_flat.png"><span class="title">Twitter</span></a></li>
+					<li><a href='https://github.com/leeclarke'><img class="social" src="img/github-flat.png"><span class="title">Github</span></a></li>
+				</ul><ul class="social" style="height:400px;">
+					<li><a href='http://forrst.me/leeclarke'><img class="social" src="img/forrst_icon.png"><span class="title">Forrst</span></a></li>
+					<li><a href="http://www.goodreads.com/user/show/3482835-lee"><img class="social" src="img/goodreads.png"><span class="title">GoodReads</span></a></li>
+					<li><a href='http://greenscreenprojects.blogspot.com'><img class="social" src="img/blogger-flat.png"><span class="title">General Blog</span></a></li>
+				</ul>		
+		  	</artical>
 		  </div>
 	    </div>
 	    <div id="tabs-4">

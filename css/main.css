@@ -9,14 +9,14 @@ html
 }
 
 body {
-	margin-left: auto ;
-	margin-right: auto ;
-	width:780px;
+	margin:20px 0px; padding:0px;
+	text-align:center;
 }
 
-.content {
-	margin-top: 20px ;
+#content {
 	width:780px;
+	margin:0px auto;
+	text-align:left;
 	border: 1px solid #A89000;
 }
 
@@ -123,7 +123,6 @@ ul.socail li {
 ul.social li a{
 	display: block;
     width: 209px;
-    height: 48px;
     padding: 8px;
     color: #00324b;
     overflow: hidden;
