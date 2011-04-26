@@ -5,9 +5,11 @@
 	<![endif]-->
 	<link type="text/css" href="css/custom-theme/jquery-ui-1.8.11.custom.css" rel="stylesheet" />
 	<link type="text/css" href="css/main.css" rel="stylesheet" />
-	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+	
 	<script type="text/javascript" src="js/jquery-ui-1.8.11.custom.min.js"></script>
 	<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+	<script type="text/javascript" src="js/rest_manager.js"></script>
 <head> 
 	<meta charset=utf-8>
 	<title>Lee Clarke - master of the &#59;</title> 
@@ -17,10 +19,13 @@
 				$('#tabs').tabs();
 				
 				//Set height to viewable minus the header.
-				var tabs = $(this).find(".tab-content");
-				var body = $(this).find("body");
-				tabs.height( (body.height() - tabs.position().top-30));
+				var tabs = $(this).find(".tab-body");
+				var body = $(this).find("body"); //in FF the body height is drasticly smaller.. is it tabs position?
+				//$('#tabs').height(body.height());
+				tabs.height( (body.height() - tabs.position().top-20));	
 				
+				var lastFMurl = "http://restinator3000.appspot.com/json?url=http://ws.audioscrobbler.com/2.0/user/lees2bytes/recenttracks.rss&callback=?"
+				retrieveRestFeed(lastFMurl,'.last10');			
 			}
 			$(document).ready(initPage);
 	</script>
@@ -62,7 +67,7 @@
 	    <div id="tabs-2">
 			<div class="tab-content">
 		  <artical>	
-			<p>
+			<span style="float:left; margin-right: 10px;">
 <script>
 new TWTR.Widget({
   version: 2,
@@ -70,7 +75,7 @@ new TWTR.Widget({
   rpp: 6,
   interval: 6000,
   width: 300,
-  height: 260,
+  height: 300,
   theme: {
     shell: {
       background: '#031634',
@@ -92,10 +97,18 @@ new TWTR.Widget({
     behavior: 'default'
   }
 }).render().setUser('lees2bytes').start();
-</script></p>
+</script></span>
 		  </artical>
-		  </div>
-		  Soon I'll be adding my Blog and Pandora feeds!
+			<span id="lastFM">
+			What I've Been Jamming To Lately:
+				<ul class="last10">
+					<li>x</li>
+				</ul>
+			</div>
+		  </span>
+		  </artical>
+		  
+		  Soon I'll be adding my Blog feed!
 	    </div>
 	    <div id="tabs-3">
 			<div class="tab-content">

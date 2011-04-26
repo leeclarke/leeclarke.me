@@ -159,4 +159,32 @@ ul.social li a span {
     font-weight: normal;
 }
 
+#lastFM {
+	background:#031634;	
+	float: left;
+	width: 50%;
+	height: 400px;
+	overflow: auto;
+}
 
+#lastFM ul{
+	list-style: none;
+}
+
+#lastFM ul li{
+	font-size: smaller;
+	color:#ffffff;
+	border-width: 1px;
+	border-color: #ffffff;
+	border-style: none none dotted none;
+}
+
+#lastFM ul li #title {
+	color:#ffffff;
+	
+}
+
+#lastFM ul li #listen-date{
+	font-size: smaller;
+	color:#5084ED;
+}
