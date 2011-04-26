@@ -204,7 +204,7 @@ ul.social li a span {
 	color:#ffffff;
 }
 
-#lastFM ul li #listen-date{
+ul li #listen-date{
 	font-size: x-small;
 	color:#5084ED;
 	text-align: right;
@@ -214,14 +214,48 @@ ul.social li a span {
 	color:#ffffff;
 	background:#031634;	
 	float: left;
-	height: 100px;
+	height: 200px;
 	width: 700px;
-	
 	font-size: smaller;
 	font-weight: bold;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
+
+#blogFeed .blogHead {
+	color: #a88f00;
+	text-align: center;
+	padding: 2px;
+}
+
+#blogFeed .blogContainer {
+	overflow: scroll;
+}
+
+#blogFeed ul{
+	font-weight: normal;
+	list-style-type: none;
+	padding: 2px;
+	margin: 0px;
+}
+
+#blogFeed ul li{
+	color:#ffffff;
+	border-width: 1px;
+	border-color: #ffffff;
+	border-style: dotted none none none;
+}
+
+#blogFeed ul li a{
+	color:#ffffff;
+	text-decoration: none;
+}
+
+#blogFeed ul li a:hover{
+	text-decoration: none;
+	background-color: rgba(0,0,0,0.1);
+}
+
 
 .twitter {
 	float:left; 

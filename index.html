@@ -32,9 +32,10 @@
 				$(this).find("#tabs-4").height(tabHT);
 				
 				var lastFMurl = "http://restinator3000.appspot.com/json?url=http://ws.audioscrobbler.com/2.0/user/lees2bytes/recenttracks.rss&callback=?"
-				//var blogurl = "http://restinator3000.appspot.com/json?url=http://ws.audioscrobbler.com/2.0/user/lees2bytes/recenttracks.rss&callback=?"
-				retrieveRestFeed(lastFMurl,'.last10');	
-				//retrieveRestFeed(blogurl,'.blog10');	
+				var blogurl = "http://restinator3000.appspot.com/json?url=http://lees2bytes.blogspot.com/feeds/posts/default&callback=?"
+				
+				retrieveBlogFeed(blogurl,'.blog5');	
+				retrieveLastFMFeed(lastFMurl,'.last10');	
 			}
 			$(document).ready(initPage);
 	</script>
@@ -75,7 +76,6 @@
 	    </div>
 	    <div id="tabs-2">
 			<div class="tab-content">
-		  <artical>	
 			<span class="twitter" >
 <script>
 new TWTR.Widget({
@@ -107,23 +107,23 @@ new TWTR.Widget({
   }
 }).render().setUser('lees2bytes').start();
 </script></span>
-		  </artical>
 			<span id="lastFM">
-			<div class="lastFMHead">What I've Been Jamming To Lately:<br><br></div>
+				<div class="lastFMHead">What I've Been Jamming To Lately:<br><br></div>
 				<span class="fmContainer">
 				<ul class="last10">
-					<li>x</li>
+					<li>Currently Unavailable</li>
 				</ul>
 				</span>
-			
-		  </span>
-		  </artical>
-		  <artical>
-		  	<br>&nbsp;
+		    </span>
 		  	<div id="blogFeed">
-		  		Soon I'll be adding my Blog feed!	
+		  		<div class="blogHead">Recent Posts From My Programming Blog<br><br></div>
+				<span class="blogContainer">
+				<ul class="blog5">
+					<li>Currently Unavailable</li>
+				</ul>
+				</span>	
 		  	</div>
-		  </artical>		  
+		  	</div>
 	    </div>
 	    <div id="tabs-3">
 			<div class="tab-content">
