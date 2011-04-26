@@ -17,14 +17,11 @@ function retrieveRestFeed(feedUrl, resultTarget) {
  */
 function parseFM(data){
 	if(data.entries) {		
-		
-		console.log("entry count="+data.entries.length + "   resultTarget="+target)	
 		for(i = 0; i<data.entries.length; i++) {
 			var entry = data.entries[i];
 			var title = entry.title.value;
 			var date = entry.property_map.modified;
-			console.log('title='+title);
-			feedItems.push('<li><span id="title">' + title +'</div><div id="listen-date">' + parseToLocal(date)+ '</div></li>');
+			feedItems.push('<li><span id="title">' + title +'</span><div id="listen-date">' + parseToLocal(date)+ '</div></li>');
 		}
 	}
 	var out = feedItems.join()

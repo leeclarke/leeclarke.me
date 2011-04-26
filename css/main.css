@@ -160,31 +160,63 @@ ul.social li a span {
 }
 
 #lastFM {
+	color:#ffffff;
 	background:#031634;	
 	float: left;
 	width: 50%;
 	height: 400px;
-	overflow: auto;
+	overflow: hidden;
+	font-size: smaller;
+	font-weight: bold;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin-left: 20px;
+}
+
+.fmContainer {
+	overflow: scroll;
+}
+
+.lastFMHead {
+	color: #a88f00;
+	text-align: center;
+	padding: 2px;
 }
 
 #lastFM ul{
-	list-style: none;
+	font-weight: normal;
+	list-style-type: none;
+	padding: 2px;
+	margin: 0px;
 }
 
 #lastFM ul li{
-	font-size: smaller;
 	color:#ffffff;
 	border-width: 1px;
 	border-color: #ffffff;
-	border-style: none none dotted none;
+	border-style: dotted none none none;
 }
 
 #lastFM ul li #title {
 	color:#ffffff;
-	
 }
 
 #lastFM ul li #listen-date{
-	font-size: smaller;
+	font-size: x-small;
 	color:#5084ED;
+	text-align: right;
+}
+
+#blogFeed {
+	color:#ffffff;
+	background:#031634;	
+	float: left;
+	width: 98%;
+	height: 100px;
+	overflow: hidden;
+	font-size: smaller;
+	font-weight: bold;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin-top: 8px;
 }
