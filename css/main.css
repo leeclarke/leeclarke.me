@@ -9,6 +9,7 @@ html
 }
 
 body {
+	height: 100%;
 	margin:20px 0px; padding:0px;
 	text-align:center;
 }
@@ -33,6 +34,7 @@ body {
 }
 
 .tab-body{
+	height: auto;
 	border: 1px solid #031634;
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 }
@@ -163,14 +165,15 @@ ul.social li a span {
 	color:#ffffff;
 	background:#031634;	
 	float: left;
-	width: 50%;
+	width: 49%;
 	height: 400px;
 	overflow: hidden;
 	font-size: smaller;
 	font-weight: bold;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	margin-left: 20px;
+	margin-left: auto;
+	margin-bottom: auto;
 }
 
 .fmContainer {
@@ -211,12 +214,17 @@ ul.social li a span {
 	color:#ffffff;
 	background:#031634;	
 	float: left;
-	width: 98%;
 	height: 100px;
-	overflow: hidden;
+	width: 700px;
+	
 	font-size: smaller;
 	font-weight: bold;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	margin-top: 8px;
+}
+
+.twitter {
+	float:left; 
+	margin-right: 10px;
+	margin-bottom: 10px;
 }

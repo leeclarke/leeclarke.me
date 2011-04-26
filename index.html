@@ -1,4 +1,4 @@
-<! doctype html>
+<!doctype HTML>
 <html lang=en> 
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -22,10 +22,19 @@
 				var tabs = $(this).find(".tab-body");
 				var body = $(this).find("body"); //in FF the body height is drasticly smaller.. is it tabs position?
 				//$('#tabs').height(body.height());
-				tabs.height( (body.height() - tabs.position().top-20));	
+				var tabHT = (body.height() - tabs.position().top-20);
+				//tabs.height(tabHT);	
+				
+				//set content Height to fill tab
+				$(this).find("#tabs-1").height(tabHT);
+				$(this).find("#tabs-2").height(tabHT);
+				$(this).find("#tabs-3").height(tabHT);
+				$(this).find("#tabs-4").height(tabHT);
 				
 				var lastFMurl = "http://restinator3000.appspot.com/json?url=http://ws.audioscrobbler.com/2.0/user/lees2bytes/recenttracks.rss&callback=?"
-				retrieveRestFeed(lastFMurl,'.last10');			
+				//var blogurl = "http://restinator3000.appspot.com/json?url=http://ws.audioscrobbler.com/2.0/user/lees2bytes/recenttracks.rss&callback=?"
+				retrieveRestFeed(lastFMurl,'.last10');	
+				//retrieveRestFeed(blogurl,'.blog10');	
 			}
 			$(document).ready(initPage);
 	</script>
@@ -67,7 +76,7 @@
 	    <div id="tabs-2">
 			<div class="tab-content">
 		  <artical>	
-			<span style="float:left; margin-right: 10px;">
+			<span class="twitter" >
 <script>
 new TWTR.Widget({
   version: 2,
@@ -106,10 +115,11 @@ new TWTR.Widget({
 					<li>x</li>
 				</ul>
 				</span>
-			</div>
+			
 		  </span>
 		  </artical>
 		  <artical>
+		  	<br>&nbsp;
 		  	<div id="blogFeed">
 		  		Soon I'll be adding my Blog feed!	
 		  	</div>
