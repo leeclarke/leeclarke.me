@@ -1,0 +1,51 @@
+<! doctype html>
+<html lang=en> 
+	<link type="text/css" href="css/custom-theme/jquery-ui-1.8.11.custom.css" rel="stylesheet" />
+	<link type="text/css" href="css/main.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.11.custom.min.js"></script>
+<head>
+	<script type="text/javascript">
+		function initPage(){
+	//	var url = "http://restinator3000.appspot.com/json?url=http://lees2bytes.blogspot.com/feeds/comments/default&callback=?";
+		//var url ="http://restinator3000.appspot.com/json?url=http://ws.audioscrobbler.com/2.0/user/lees2bytes/recenttracks.rss&callback=?";
+		//var url ="http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?";
+		//var url = "http://localhost:9000/json/test?url=test.html&callback=?"
+			var url = "http://localhost:9000/json?url=http://ws.audioscrobbler.com/2.0/user/lees2bytes/recenttracks.rss&callback=?"
+//TODO: format and retrieve rest of info. 
+//TODO: Move code to main page.	
+//TODO: Test and intergrate jquery 1.5.2 into index page.		
+			$.getJSON(url, function(data){
+				var items = [];
+				if(data.entries) {		
+					console.log("entry count="+data.entries.length)	
+					for(i = 0; i<data.entries.length; i++) {
+						var entry = data.entries[i];
+						var title = entry.title.value;
+						var date = entry.property_map.modified;
+						console.log('title='+title);
+						items.push('<li id="title">' + title +' ' + date+ '</li>');
+					}
+				}
+				var out = items.join()
+				while(out.indexOf(',') >-1) {
+					out = out.replace(',',' ');
+				}
+				$('.last10').html(out);
+			});		 
+				
+		}
+		$(document).ready(initPage);
+	</script>
+</head>
+<body>
+
+Last 10 songs:
+	<ul class="last10">
+		<li>x</li>
+	</ul>
+	<div class="result">
+	
+	</div>
+</body>
+</html>
