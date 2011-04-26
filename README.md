@@ -1,0 +1,1 @@
+This code is just from my web-site and probably not much interest to anyone. One thing that might be interesting is the /projects folder which contains the hRecipeHelper code for the browser version of my hRecipeHelper Chrome Extension.
