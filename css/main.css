@@ -262,3 +262,7 @@ ul li #listen-date{
 	margin-right: 10px;
 	margin-bottom: 10px;
 }
+
+.project-list li {
+	padding-top: 8px;
+}
