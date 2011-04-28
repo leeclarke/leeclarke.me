@@ -264,5 +264,11 @@ ul li #listen-date{
 }
 
 .project-list li {
-	padding-top: 8px;
+	padding-top: 14px;
+}
+
+.project-list li img{
+	height: 32px;
+	width: 32px;
+	border: none;
 }
